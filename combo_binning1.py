@@ -40,7 +40,7 @@ print(histogram_data)
 # Save the histogram data to a CSV file
 histogram_data.to_csv('frequency_distribution.csv', index=False)
 
-fig.write_html('NQ_range.html', auto_open=True)
+# fig.write_html('NQ_range.html', auto_open=True)
 
 data = histogram_data[['Weekly_Range']]
 
@@ -51,6 +51,9 @@ bins = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 140
 bin_labels = [f"{b}-{b+99}" for b in bins[:-1]]
 data['Binned_Weekly_Range'] = pd.cut(data['Weekly_Range'], bins=bins, labels=bin_labels, right=False)
 
+print(data)
+data.to_csv('bin_results.csv')
+
 # Group by the binned column and calculate the count
 agg_data = data.groupby('Binned_Weekly_Range').agg({'Weekly_Range': 'count'}, observed=True).reset_index()
 
@@ -60,9 +63,11 @@ agg_data.rename(columns={'Weekly_Range': 'Count'}, inplace=True)
 # Calculate the percentage column
 agg_data['Percentage'] = (agg_data['Count'] / agg_data['Count'].sum()) * 100
 
-print(data)
-data.to_csv('bin_results.csv')
+agg_data['Cumulative_Percentage'] = agg_data['Percentage'].cumsum()
 
-print(agg_data)
+# Calculate the inverse of the cumulative percentages
+agg_data['Inverse_Cumulative_Percentage'] = 100 - agg_data['Cumulative_Percentage']
+
+print(agg_data['Inverse_Cumulative_Percentage'])
 agg_data.to_csv('agg_data.csv')
 
