@@ -45,7 +45,7 @@ histogram_data.to_csv('frequency_distribution.csv', index=False)
 data = histogram_data[['Weekly_Range']]
 
 # Define the bins
-bins = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000]
+bins = [0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000]
 
 # Use pd.cut to create bins
 bin_labels = [f"{b}-{b+99}" for b in bins[:-1]]
